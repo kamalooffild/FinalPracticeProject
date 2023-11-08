@@ -1,0 +1,49 @@
+  <StackPanel Background="Gray" 
+                    
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="350"
+                    
+                    Height="220">
+            <TextBlock  Margin="10 2" Text="Телефон" FontSize="20" Foreground="Black" />
+            <Border CornerRadius="7" Background="White" BorderBrush="Black" BorderThickness="1"
+        VerticalAlignment="Center" UseLayoutRounding="True">
+                <TextBox x:Name="TBPhone" Height="30" Width="330" BorderThickness="0"/>
+            </Border>
+
+
+            <TextBlock Margin="10 6" FontSize="20" Text="Пароль" Foreground="Black"/>
+            <Border CornerRadius="7" Background="White" BorderBrush="Black" BorderThickness="1"
+        VerticalAlignment="Center" UseLayoutRounding="True">
+                <PasswordBox x:Name="PBPassword"  Height="30" Width="330"  BorderThickness="0"/>
+            </Border>
+            
+            <Button x:Name="BLogin"
+                    Content="Войти"
+                    Background="Black" Foreground="White"
+                    Margin="10 30"
+                    Height="40"
+                    FontSize="20"
+                    Click="BLogin_Click" />
+        </StackPanel>
+
+
+
+private void BLogin_Click(object sender, RoutedEventArgs e)
+        {
+            var employee = App.DB.Employee.FirstOrDefault(emp => emp.Phone == TBPhone.Text);
+            if(employee == null)
+            {
+                MessageBox.Show("Логин неверный");
+                return;
+            }
+            if(employee.Password != PBPassword.Password)
+            {
+                MessageBox.Show("Пароль неверный");
+                return;
+            }
+            
+            App.LoggedEmployee = employee;
+            NavigationService.Navigate(new MainPage());
+
+
